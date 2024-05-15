@@ -1,0 +1,77 @@
+<section class="auth-page-wrapper py-5 position-relative d-flex align-items-center justify-content-center min-vh-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card mb-0">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-xxl-6 mx-auto">
+                            <div class="card mb-0 border-0 shadow-none mb-0">
+                                <div class="card-body p-sm-2 m-lg-4">
+                                    <div class="text-center mt-5">
+                                        <h5 class="fs-3xl">Bem-vindo de Volta</h5>
+                                        <p class="text-muted">Faça login para continuar no sistema.</p>
+                                    </div>
+                                    <div class="p-2 mt-5">
+                                        <form [formGroup]="loginForm" (ngSubmit)="login()">
+                                            <div class="col-12">    
+                                                <ul *ngIf="errors && errors.length > 0" class="alert alert-danger p-4">
+                                                    <li *ngFor="let error of errors">{{ error }}</li>
+                                                </ul>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="username" class="form-label">E-mail <span class="text-danger">*</span></label>
+                                                <div class="position-relative">
+                                                    <input 
+                                                    type="text" 
+                                                    class="form-control"
+                                                    placeholder="Digite o e-mail"
+                                                    formControlName="email"
+                                                    [ngClass]="{ 'is-invalid': f['email'].errors && f['email'].touched }">
+                                                    <div *ngIf="f['email'].errors && f['email'].touched" class="text-danger">
+                                                        <div *ngIf="f['email'].errors['required']">Por favor, informe o e-mail do utilizador</div>
+                                                    </div>                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label" for="password-input">Senha <span class="text-danger">*</span></label>
+                                                <div class="position-relative auth-pass-inputgroup mb-3">
+                                                    <input 
+                                                    [type]="fieldTextType ? 'text' : 'password'"
+                                                    class="form-control pe-5 password-input"
+                                                    placeholder="Digite a senha"
+                                                    formControlName="password"
+                                                    [ngClass]="{ 'is-invalid': f['password'].errors && f['password'].touched }" required>
+                                                    <div *ngIf="f['password'].errors && f['password'].touched" class="text-danger">
+                                                        <div *ngIf="f['password'].errors['required']">Por favor, informe a senha do utilizador</div>
+                                                    </div> 
+                                                    <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle" [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType
+                                                    }" (click)="toggleFieldTextType()"></i></button>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="auth-remember-check" />
+                                                <label class="form-check-label" for="auth-remember-check">Lembrar-me</label>
+                                            </div>
+
+                                            <div class="mt-4">
+                                                <button class="btn btn-primary w-100" type="submit">Entrar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <!-- end card body -->
+                            </div>
+                            <!-- end card -->
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </div>
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+    </div>
+    <!--end container-->
+</section>

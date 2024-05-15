@@ -1,0 +1,76 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Adicionar Perfil" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="card">
+    <div class="card-header">
+        <!-- <h4 class="card-title mb-0 flex-grow-1">Novo perfil</h4> -->
+
+        <div class="card-body">
+           <form [formGroup]="addRoleForm" (ngSubmit)="addRole()">
+                <div class="col-12">
+                    <ul *ngIf="errors && errors.length > 0" class="alert alert-danger p-4">
+                        <li *ngFor="let error of errors">{{ error }}</li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div>
+                            <label class="form-label">Nome</label>
+                            <input 
+                            type="text" 
+                            class="form-control" 
+                            placeholder="Digite o nome do perfil"
+                            formControlName="name" 
+                            [ngClass]="{ 'is-invalid': f['name'].errors && f['name'].touched }">
+
+                            <div *ngIf="f['name'].errors && f['name'].touched" class="text-danger">
+                                <div *ngIf="f['name'].errors['required']">Por favor, informe o nome do perfil</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="my-5">
+                    <span class="text-primary">Permissões</span>
+                    <accordion [closeOthers]="true"
+                    class="accordion custom-accordionwithicon custom-accordion-border accordion-border-box accordion-success my-2"
+                    id="accordionBordered">
+                        <div *ngIf="claims">
+                            <div *ngFor="let key of getObjectKeys(claims)">
+                                <accordion-group *ngIf="key !== 'Dashboard'"  class="accordion-item my-2" [isOpen]="isFirstOpen">
+                                    <h2 accordion-heading class="accordion-header">
+                                        <button class="accordion-button" type="button">
+                                            {{key}}
+                                        </button>
+                                    </h2>
+                                    <div id="accor_borderedExamplecollapse1" class="accordion-collapse collapse show">
+                                        <div class="accordion-body">
+                                            <div class="row" *ngFor="let claim of claims[key]">
+                                                <div class="mt-4 mt-lg-0">
+                                                    <div class="form-check form-check-inline form-check-success">
+                                                        <input class="form-check-input" type="checkbox" value="{{claim}}"
+                                                         formControlName="claims" (change)="onCheckboxChange(key, claim)">
+                                                        <label class="form-check-label">{{claim}}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </accordion-group>
+                            </div>
+                        </div>
+                    </accordion>
+                </div>
+                <div class="text-end">
+                    <a routerLink="/perfis" type="button" class="btn btn-light mx-2">Voltar</a>
+                    <button type="submit" [disabled]="addRoleForm.invalid"  class="btn btn-primary">Salvar</button>
+                </div>
+           </form>
+            
+        </div><!-- end card-body -->
+    </div><!-- end card -->
+    <div class="card-body">
+
+    </div>
+</div>
