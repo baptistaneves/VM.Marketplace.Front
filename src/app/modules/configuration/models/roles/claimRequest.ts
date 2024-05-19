@@ -1,4 +1,4 @@
 export class ClaimRequest {
-    claimType: string;
-    claimValue: string;
+    type: string;
+    value: string;
 }

@@ -38,7 +38,7 @@
                     id="accordionBordered">
                         <div *ngIf="claims">
                             <div *ngFor="let key of getObjectKeys(claims)">
-                                <accordion-group *ngIf="key !== 'Dashboard'"  class="accordion-item my-2" [isOpen]="isFirstOpen">
+                                <accordion-group class="accordion-item my-2" [isOpen]="isFirstOpen">
                                     <h2 accordion-heading class="accordion-header">
                                         <button class="accordion-button" type="button">
                                             {{key}}
@@ -63,7 +63,7 @@
                     </accordion>
                 </div>
                 <div class="text-end">
-                    <a routerLink="/perfis" type="button" class="btn btn-light mx-2">Voltar</a>
+                    <a routerLink="/configuracao/niveis-de-acesso" type="button" class="btn btn-light mx-2">Voltar</a>
                     <button type="submit" [disabled]="addRoleForm.invalid"  class="btn btn-primary">Salvar</button>
                 </div>
            </form>

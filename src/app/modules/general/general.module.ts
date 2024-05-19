@@ -22,6 +22,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GeneralGuard } from './guards/general.guard';
 
 
 
@@ -54,7 +55,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CityService,
     AddressService,
     DeliveryAddressService,
-    UnitService
+    UnitService,
+    GeneralGuard
   ]
 })
 export class GeneralModule { }

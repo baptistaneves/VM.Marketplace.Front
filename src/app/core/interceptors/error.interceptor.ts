@@ -25,7 +25,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
                 if (error.status === 401) {
                     this.localStorageUtil.cleanLocalUserData();
-                    this.router.navigate(['/auth/signin'], { queryParams: { returnUrl: this.router.url }});
+                    this.router.navigate(['/autenticar/login/'], { queryParams: { returnUrl: this.router.url }});
                 }
                 if (error.status === 403) {
                    this.toastr.warning('Sem permissão para realizar essa acção!', 'Acesso Negado :(');

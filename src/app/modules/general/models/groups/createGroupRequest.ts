@@ -1,4 +1,4 @@
 export class CreateGroupRequest {
     description:string;
-    isActivate: boolean;
+    isActivate: boolean = true;
 }

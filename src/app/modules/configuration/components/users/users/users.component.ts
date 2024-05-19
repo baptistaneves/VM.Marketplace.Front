@@ -8,6 +8,7 @@ import { UserService } from '../../../services/user.service';
 import { UserDto } from '../../../models/users/userDto';
 import { RoleService } from '../../../services/role.service';
 import { RoleDto } from '../../../models/roles/roleDto';
+import { UpdateAdminUserRequest } from '../../../models/users/UpdateAdminUserRequest';
 
 @Component({
   selector: 'app-users',
@@ -25,6 +26,7 @@ export class UsersComponent {
   roles: RoleDto[];
 
   createUserRequest: CreateAdminUserRequest;
+  updateUserRequest: UpdateAdminUserRequest;
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
@@ -87,8 +89,8 @@ export class UsersComponent {
       fullName: ['', [Validators.required]],
       email: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
-      password: ['', [Validators.required]],
-      role: ['', [Validators.required]]
+      role: ['', [Validators.required]],
+      id: ['']
     });
   }
 
@@ -118,29 +120,29 @@ export class UsersComponent {
     }
   }
 
-  addState() {
+  addUser() {
     if(this.addForm.dirty && this.addForm.valid) {
       this.createUserRequest = Object.assign({}, this.createUserRequest, this.addForm.value);
 
       this.userService.add(this.createUserRequest)
             .subscribe(
-              sucesso => { this.handleSuccessAddCity() },
+              sucesso => { this.handleSuccessAddUser() },
               erros => { this.handleFail(erros) }
             );
     }
   }
 
-  // editState() {
-  //   if(this.editForm.dirty && this.editForm.valid) {
-  //     this.updateStateRequest = Object.assign({}, this.updateStateRequest, this.editForm.value);
+   editUser() {
+     if(this.editForm.dirty && this.editForm.valid) {
+       this.updateUserRequest = Object.assign({}, this.updateUserRequest, this.editForm.value);
 
-  //     this.stateService.update(this.updateStateRequest)
-  //           .subscribe(
-  //             sucesso => { this.handleSuccessEditCity() },
-  //             erros => { this.handleFail(erros) }
-  //           );
-  //   }
-  // }
+       this.userService.update(this.updateUserRequest)
+             .subscribe(
+               sucesso => { this.handleSuccessEditUser() },
+               erros => { this.handleFail(erros) }
+             );
+     }
+   }
 
   remove(id:string){
     this.userService.remove(id)
@@ -151,7 +153,7 @@ export class UsersComponent {
    
   }
   
-  handleSuccessAddCity() {
+  handleSuccessAddUser() {
     this.addForm.reset();
     Swal.fire(
       { 
@@ -168,7 +170,7 @@ export class UsersComponent {
       });;
   }
 
-  handleSuccessEditCity() {
+  handleSuccessEditUser() {
     this.addForm.reset();
     Swal.fire(
       { 

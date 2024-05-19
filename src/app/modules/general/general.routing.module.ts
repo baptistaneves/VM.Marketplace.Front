@@ -6,31 +6,44 @@ import { SubcategoriesComponent } from './components/subcategories/subcategories
 import { UnitsComponent } from './components/units/units.component';
 import { StatesComponent } from './components/states/states.component';
 import { CitiesComponent } from './components/cities/cities.component';
+import { GeneralGuard } from './guards/general.guard';
 
 const routes: Routes = [
   { 
     path: 'grupos', 
-    component: GroupsComponent
+    component: GroupsComponent,
+    canActivate: [GeneralGuard],
+    data: [{ claim: { type: 'Grupo', value: 'Visualizar'}}]
   },
   { 
     path: 'categorias', 
-    component: CategoriesComponent
+    component: CategoriesComponent,
+    canActivate: [GeneralGuard],
+    data: [{ claim: { type: 'Categoria', value: 'Visualizar'}}]
   },
   { 
     path: 'subcategorias/:categoryDescription/:categoryId', 
-    component: SubcategoriesComponent
+    component: SubcategoriesComponent,
+    canActivate: [GeneralGuard],
+    data: [{ claim: { type: 'Subcategoria', value: 'Visualizar'}}]
   },
   { 
     path: 'unidades', 
-    component: UnitsComponent
+    component: UnitsComponent,
+    canActivate: [GeneralGuard],
+    data: [{ claim: { type: 'Unidade', value: 'Visualizar'}}]
   },
   { 
     path: 'provincias', 
-    component: StatesComponent
+    component: StatesComponent,
+    canActivate: [GeneralGuard],
+    data: [{ claim: { type: 'Província', value: 'Visualizar'}}]
   },
   { 
     path: 'municipios/:stateName/:stateId', 
-    component: CitiesComponent
+    component: CitiesComponent,
+    canActivate: [GeneralGuard],
+    data: [{ claim: { type: 'Munícipio', value: 'Visualizar'}}]
   }
 ];
 

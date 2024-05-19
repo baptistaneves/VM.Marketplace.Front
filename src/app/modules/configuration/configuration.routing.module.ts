@@ -4,6 +4,7 @@ import { ListRolesComponent } from './components/roles/list-roles/list-roles.com
 import { AddRoleComponent } from './components/roles/add-role/add-role.component';
 import { EditRoleComponent } from './components/roles/edit-role/edit-role.component';
 import { UsersComponent } from './components/users/users/users.component';
+import { RoleResolver } from '../general/resolvers/role.resolver';
 
 const routes: Routes = [
   { 
@@ -16,7 +17,10 @@ const routes: Routes = [
   },
   { 
     path: 'editar-perfil/:id', 
-    component: EditRoleComponent
+    component: EditRoleComponent,
+    resolve: {
+      role: RoleResolver
+    }
   },
   { 
     path: 'utilizadores', 

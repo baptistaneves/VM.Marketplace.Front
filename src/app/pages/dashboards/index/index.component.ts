@@ -20,8 +20,8 @@ export class IndexComponent {
      * BreadCrumb
      */
     this.breadCrumbItems = [
-      { label: 'Dashboard' },
-      { label: 'Dashboard', active: true }
+      { label: 'Painel' },
+      { label: 'Painel Administrativo', active: true }
     ];
   }
 }

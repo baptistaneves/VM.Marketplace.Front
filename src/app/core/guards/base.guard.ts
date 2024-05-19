@@ -13,15 +13,10 @@ export abstract class BaseGuard {
     protected validarClaims(routeAc: ActivatedRouteSnapshot) : boolean {
 
         if(!this.localStorageUtils.getToken()){
-            this.router.navigate(['/auth/signin/'], { queryParams: { returnUrl: this.router.url }});
+            this.router.navigate(['/autenticar/login'], { queryParams: { returnUrl: this.router.url }});
         }  
 
         let user = this.localStorageUtils.getUser();
-
-        if(user.hasLoggedInBefore === false){
-            this.router.navigate(['/auth/mudar-senha/'], { queryParams: { returnUrl: this.router.url }});
-        }
-
         let claim: any = routeAc.data[0];
         if (claim !== undefined) {
             let claim = routeAc.data[0]['claim'];
@@ -31,15 +26,15 @@ export abstract class BaseGuard {
                     this.AccessDeniedNavigation();
                 }
                 
-                let userClaims = user.claims.find(x => x.claimValue === claim.claimValue);
+                let userClaims = user.claims.find(x => x.value === claim.value);
 
                 if(!userClaims){
                     this.AccessDeniedNavigation();
                 }
 
-                let valoresClaim = userClaims.claimValue as string;
+                let valoresClaim = userClaims.value as string;
                 
-                if (!valoresClaim.includes(claim.claimValue)) {
+                if (!valoresClaim.includes(claim.value)) {
                     this.AccessDeniedNavigation();
                     return false;
                 }

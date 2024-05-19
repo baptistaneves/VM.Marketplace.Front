@@ -46,7 +46,7 @@
                                         </div>
                                     </th>
                                     <th>Descrição</th>
-                                    <th>Estado</th>
+                                    <!-- <th>Estado</th> -->
                                     <th class="text-end">Acção</th>
                                 </tr>
                             </thead>
@@ -58,8 +58,8 @@
                                         </div>
                                     </td>
                                     <td >{{group.description}}</td>
-                                    <td *ngIf="group.isActive"><span class="badge bg-success">Activo</span></td>
-                                    <td *ngIf="!group.isActive"><span class="badge bg-danger">Desactivado</span></td>
+                                    <!-- <td *ngIf="group.isActive"><span class="badge bg-success">Activo</span></td>
+                                    <td *ngIf="!group.isActive"><span class="badge bg-danger">Desactivado</span></td> -->
                                     <td>
                                         <div class="hstack gap-3 flex-wrap justify-content-sm-end">
                                             <a href="javascript:void(0);" class="link-success fs-base text-center" (click)="fillForm(group)" (click)="edit.show()"><i class="ri-edit-2-line"></i></a>

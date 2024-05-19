@@ -92,12 +92,12 @@
 <!--Novo Grupo-->
 <div bsModal #newUser="bs-modal" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog"
     aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-body text-center p-5">
                 <div class="mt-4">
                     <h4 class="mb-3">Novo Utilizador</h4>
-                    <form [formGroup]="addForm" (ngSubmit)="addState()" class="text-start my-4">
+                    <form [formGroup]="addForm" (ngSubmit)="addUser()" class="text-start my-4">
                         <div class="col-12">
                             <ul *ngIf="errors && errors.length > 0" class="alert alert-danger p-4">
                                 <li *ngFor="let error of errors">{{ error }}</li>
@@ -182,7 +182,67 @@
             <div class="modal-body text-center p-5">
                 <div class="mt-4">
                     <h4 class="mb-3">Editar Utilizador</h4>
-                  
+                    <form [formGroup]="editForm" (ngSubmit)="editUser()" class="text-start my-4">
+                        <div class="col-12">
+                            <ul *ngIf="errors && errors.length > 0" class="alert alert-danger p-4">
+                                <li *ngFor="let error of errors">{{ error }}</li>
+                            </ul>
+                        </div>
+                        <div class="row mb-3">
+                                <label for="contactNumber" class="form-label">Nome</label>
+                                <input 
+                                type="text" 
+                                class="form-control"
+                                placeholder="Digite o nome"
+                                formControlName="fullName"
+                                [ngClass]="{ 'is-invalid': f['fullName'].errors && f['fullName'].touched }">
+                                <div *ngIf="f['fullName'].errors && f['fullName'].touched" class="text-danger">
+                                    <div *ngIf="f['fullName'].errors['required']">Por favor, informe o nome do utilizador</div>
+                                </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="contactNumber" class="form-label">E-mail</label>
+                            <input 
+                            type="text" 
+                            class="form-control"
+                            placeholder="Digite o nome"
+                            formControlName="email"
+                            [ngClass]="{ 'is-invalid': f['email'].errors && f['email'].touched }">
+                            <div *ngIf="f['email'].errors && f['email'].touched" class="text-danger">
+                                <div *ngIf="f['email'].errors['required']">Por favor, informe o e-mail do utilizador</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="contactNumber" class="form-label">Telefone</label>
+                            <input 
+                            type="text" 
+                            class="form-control"
+                            placeholder="Digite o nome"
+                            formControlName="phoneNumber"
+                            [ngClass]="{ 'is-invalid': f['phoneNumber'].errors && f['phoneNumber'].touched }">
+                        </div>
+                        <div class="row mb-3">
+                            <label class="form-label">Perfil</label>
+                                <ng-select 
+                                    placeholder="{{selectedRoleOption}}"
+                                    [items]="roles"
+                                    bindLabel="name" 
+                                    bindValue="name" 
+                                    formControlName="role" 
+                                    [ngClass]="{ 'is-invalid': f['role'].errors && f['role'].touched }">
+                                </ng-select>
+                                <div *ngIf="f['role'].errors && f['role'].touched" class="text-danger">
+                                    <div *ngIf="f['role'].errors['required']">Por favor, selecione um perfil para este utilizador</div>
+                                </div>
+                        </div>
+                        <div class="row">
+                            <input type="hidden" formControlName="id">
+                        </div>
+                        <div class="text-end">
+                            <button type="button" id="addBtn" class="btn btn-light mx-2" (click)="edit.hide()">Fechar</button>
+                            <button type="submit" [disabled]="editForm.invalid" class="btn btn-primary">Salvar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div><!-- /.modal-content -->

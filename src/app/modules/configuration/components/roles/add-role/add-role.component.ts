@@ -69,14 +69,14 @@ export class AddRoleComponent {
 
   onCheckboxChange(key: string, claim: string) {
 
-    const existingIndex = this.claimRequest.findIndex(c => c.claimType === key && c.claimValue === claim);
+    const existingIndex = this.claimRequest.findIndex(c => c.type === key && c.value === claim);
 
     if (existingIndex !== -1) {
 
       this.claimRequest.splice(existingIndex, 1);
     } else {
 
-      const newClaim: ClaimRequest = { claimType: key, claimValue: claim };
+      const newClaim: ClaimRequest = { type: key, value: claim };
       this.claimRequest.push(newClaim);
 
     }
@@ -105,11 +105,7 @@ export class AddRoleComponent {
     this.errors = [];
 
     let toast = this.toastr.success('Perfil adicionado com sucesso!');
-    if (toast) {
-      toast.onHidden.subscribe(() => {
-        this.router.navigate(['/configuracao/niveis-de-acesso']);
-      });
-    }
+    this.router.navigate(['/configuracao/niveis-de-acesso']);
   }
 
   getObjectKeys(obj: object): string[] {

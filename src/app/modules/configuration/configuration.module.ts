@@ -12,6 +12,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { EditRoleComponent } from './components/roles/edit-role/edit-role.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { UsersComponent } from './components/users/users/users.component';
+import { RoleResolver } from '../general/resolvers/role.resolver';
 
 
 @NgModule({
@@ -32,6 +33,9 @@ import { UsersComponent } from './components/users/users/users.component';
     AccordionModule,
     TabsModule,
     ConfigurationRoutingModule,
+  ],
+  providers: [
+    RoleResolver
   ]
 })
 export class ConfigurationModule { }

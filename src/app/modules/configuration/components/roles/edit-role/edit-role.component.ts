@@ -26,6 +26,7 @@ export class EditRoleComponent {
  
    roleRequest: RoleRequest;
    currentRole: RoleRequest = new RoleRequest();
+   roleClaimToChange: RoleRequest = new RoleRequest();
    claimRequest: ClaimRequest[];
    roleId: string;
    check:boolean=false;
@@ -42,6 +43,9 @@ export class EditRoleComponent {
  
        this.roleId = this.route.snapshot.params['id'];
        this.claimRequest = [];
+
+       this.currentRole = this.route.snapshot.data['role'].data;
+       this.roleClaimToChange.claims =  []
    }
  
    ngOnInit(): void {
@@ -51,23 +55,11 @@ export class EditRoleComponent {
        { label: 'Editar Perfil', active: true }
      ];
      
-     this.getRoleById();
      this.listClaims();
      this.initializeEditRoleForm();
      this.disableForm();
    }
  
- 
-   getRoleById() {
-    this.roleService.getById(this.roleId)
-     .subscribe(
-       response =>  {
-         this.currentRole = response.data;  
-       },
-       errors => { this.handleFail(errors); }
-     )
-   }
-
    listClaims() {
      this.roleService.getRoleClaims()
      .subscribe(
@@ -116,20 +108,19 @@ export class EditRoleComponent {
  
    onCheckboxChange(key: string, claim: string) {
  
-     const existingIndex = this.currentRole.claims.findIndex(c => c.claimType === key && c.claimValue === claim);
+     const existingIndex = this.roleClaimToChange.claims.findIndex(c => c.type === key && c.value === claim);
  
      if (existingIndex !== -1) {
  
-       this.currentRole.claims.splice(existingIndex, 1);
+       this.roleClaimToChange.claims.splice(existingIndex, 1);
  
-       const removeClaim: ClaimRequest = { claimType: key, claimValue: claim};
-       this.currentRole.claims.push(removeClaim);
+       const removeClaim: ClaimRequest = { type: key, value: claim};
+       this.roleClaimToChange.claims.push(removeClaim);
        
      } else {
  
-       const newClaim: ClaimRequest = { claimType: key, claimValue: claim};
-       this.currentRole.claims.push(newClaim);
- 
+       const newClaim: ClaimRequest = { type: key, value: claim};
+       this.roleClaimToChange.claims.push(newClaim); 
      }
    }
  
@@ -137,7 +128,7 @@ export class EditRoleComponent {
      if(this.editRoleForm.valid) {
        this.roleRequest = Object.assign({}, this.roleRequest, this.editRoleForm.value);
        
-       this.roleRequest.claims = this.currentRole.claims;
+       this.roleRequest.claims = this.roleClaimToChange.claims;
        this.roleRequest.id = this.currentRole.id;
  
        
@@ -158,7 +149,7 @@ export class EditRoleComponent {
      this.errors = [];
  
      this.toastr.success('Perfil actualizado com sucesso!');
-     this.router.navigate(['/perfis']);
+     this.router.navigate(['/configuracao/niveis-de-acesso']);
    }
  
    getObjectKeys(obj: object): string[] {
@@ -167,7 +158,7 @@ export class EditRoleComponent {
  
    isClaimSelected(claimType: string, claimValue: string): boolean {
     if(this.currentRole.claims) {
-      return this.currentRole.claims.some(c => c.claimType === claimType && c.claimValue === claimValue);
+      return this.currentRole.claims.some(c => c.type === claimType && c.value === claimValue);
     }
 
     return false;

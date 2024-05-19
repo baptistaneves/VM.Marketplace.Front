@@ -29,6 +29,8 @@ import { AuthenticationEffects } from './store/Authentication/authentication.eff
 import { initFirebaseBackend } from './authUtils';
 import { environment } from '../environments/environment';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { GeneralModule } from './modules/general/general.module';
+import { DashboardsModule } from './pages/dashboards/dashboards.module';
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -71,7 +73,9 @@ if (environment.defaultauth === 'firebase') {
     ToastrModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    GeneralModule,
+    DashboardsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

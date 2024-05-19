@@ -33,6 +33,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 // component
 import { IndexComponent } from './index/index.component';
 import { SharedModule } from '../../shared/shared.module';
+import { DashboardGuard } from './guards/dashboard.guard';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,9 @@ import { SharedModule } from '../../shared/shared.module';
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
     FlatpickrModule.forRoot()
+  ],
+  providers: [
+    DashboardGuard
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

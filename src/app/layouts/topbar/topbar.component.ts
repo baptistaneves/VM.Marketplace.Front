@@ -12,6 +12,7 @@ import { LanguageService } from '../../core/services/language.service';
 import { RootReducerState } from '../../store';
 import { changeMode } from '../../store/layouts/layout-action';
 import { getLayoutmode } from '../../store/layouts/layout-selector';
+import { LocalStorageUtils } from '../../core/utils/localStorageUtils';
 
 @Component({
   selector: 'app-topbar',
@@ -52,6 +53,9 @@ export class TopbarComponent {
   newNotify: number = 0;
   readNotify: number = 0;
 
+  public LocalStorage = new LocalStorageUtils();
+  loggedInUser:any;
+
   constructor(@Inject(DOCUMENT) private document: any,
     private eventService: EventService,
     public languageService: LanguageService,
@@ -62,6 +66,8 @@ export class TopbarComponent {
     private TokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
+    this.loggedInUser = this.LocalStorage.getUser();
+
     this.element = document.documentElement;
     this.userData = this.TokenStorageService.getUser();
     this.subtotal = this.subtotal.toFixed(2)
@@ -90,6 +96,11 @@ export class TopbarComponent {
         this.readNotify = element.items.length
       }
     });
+  }
+
+  logOut() {
+    this.LocalStorage.cleanLocalUserData();
+    this.router.navigate(['/autenticar/login']);
   }
 
   windowScroll() {

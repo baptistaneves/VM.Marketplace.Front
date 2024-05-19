@@ -8,7 +8,7 @@ export const MENU: MenuItem[] = [
     },
     {
         id: 2,
-        label: 'Dashboard',
+        label: 'Painel',
         icon: 'ph-gauge',
         link: '/'
     },
@@ -19,7 +19,7 @@ export const MENU: MenuItem[] = [
     },
     {
         id: 12,
-        label: 'Opções',
+        label: 'Tabelas',
         icon: 'ph-storefront',
         parentId: 8,
         subItems: [
@@ -48,6 +48,20 @@ export const MENU: MenuItem[] = [
                 parentId: 12
             }
         ]
+    },
+    {
+        id: 13,
+        label: 'Vendedores',
+        icon: 'ph-users-three-thin',
+        link: '/geral/grupos',
+        parentId: 12
+    },
+    {
+        id: 13,
+        label: 'Clientes',
+        icon: 'ph-users-thin',
+        link: '/geral/grupos',
+        parentId: 12
     },
     {
         id: 60,

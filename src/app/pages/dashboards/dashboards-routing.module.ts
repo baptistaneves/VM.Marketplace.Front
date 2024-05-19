@@ -3,12 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 
 // Component
 import { IndexComponent } from './index/index.component';
+import { DashboardGuard } from './guards/dashboard.guard';
 
 
 const routes: Routes = [
   {
     path: "",
-    component: IndexComponent
+    component: IndexComponent,
+    canActivate: [DashboardGuard],
+    data: [{ claim: { type: 'Dashboard', value: 'Visualizar'}}]
   }
 ];
 
