@@ -1,18 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
-import { CreateGroupRequest } from '../../models/groups/createGroupRequest';
-import { Group } from '../../models/groups/groups';
-import { UpdateGroupRequest } from '../../models/groups/updateGroupRequest';
-import { GroupService } from '../../services/group.service';
-import { Category } from '../../models/categories/category';
 import { CreateCategoryRequest } from '../../models/categories/createCategoryRequest';
 import { UpdateCategoryRequest } from '../../models/categories/UpdateCategoryRequest';
 import { CategoryService } from '../../services/category.service';
 import { CategoryDto } from '../../models/categories/categoryDto';
+import { NgxFileDropEntry } from 'ngx-file-drop';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-categories',
@@ -27,9 +23,14 @@ export class CategoriesComponent {
   editForm: FormGroup;
   errors: any[] = [];
   categories: CategoryDto[];
-  groups: Group[];
   createCategoryResquest: CreateCategoryRequest;
   updateCategoryRequest: UpdateCategoryRequest;
+
+  imageUrl:string;
+  staticFileUrl = environment.apiUrlCategoryStaticFilesv1;
+
+  imagemForm: any;
+  imagemNome: string;
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
@@ -41,7 +42,6 @@ export class CategoriesComponent {
 
   constructor(private fb: FormBuilder,
               private categoryService: CategoryService,
-              private groupService: GroupService,
               private toastr: ToastrService) {
 
   }
@@ -53,7 +53,6 @@ export class CategoriesComponent {
       ];
 
       this.listCategories();
-      this.listGroups();
       this.initializeAddForm();
       this.initializeEditForm();
   }
@@ -68,27 +67,15 @@ export class CategoriesComponent {
           )
   }
 
-  listGroups() {
-    this.groupService.getAll()
-          .subscribe(
-            response =>{
-              this.groups = response.data;
-            },
-            errors => { this.handleFail(errors); }
-          )
-  }
-
   initializeAddForm() {
     this.addForm = this.fb.group({
-      description: ['', [Validators.required]],
-      groupId: ['', [Validators.required]]
+      description: ['', [Validators.required]]
     });
   }
 
   initializeEditForm() {
     this.editForm = this.fb.group({
       description: ['', [Validators.required]],
-      groupId: ['', [Validators.required]],
       id: ['']
     });
   }
@@ -96,9 +83,11 @@ export class CategoriesComponent {
   fillForm(category:CategoryDto) {
     this.editForm.patchValue({
       id: category.id,
-      description: category.description,
-      groupId: category.groupId
+      description: category.description
     });
+
+    this.imageUrl = category.imageUrl;
+    console.log(this.staticFileUrl);
   }
 
   get f(){return this.addForm.controls;}
@@ -116,13 +105,22 @@ export class CategoriesComponent {
     }
   }
 
-  addGroup() {
+  addCategory() {
     if(this.addForm.dirty && this.addForm.valid) {
       this.createCategoryResquest = Object.assign({}, this.createCategoryResquest, this.addForm.value);
 
-      this.categoryService.add(this.createCategoryResquest)
+      let formdata = new FormData();
+  
+      formdata.append('category', JSON.stringify(this.createCategoryResquest));
+
+      if(this.imagemForm && this.imagemNome) {
+        formdata.append('imageFile', this.imagemForm, this.imagemNome);
+      }
+
+
+      this.categoryService.add(formdata)
             .subscribe(
-              sucesso => { this.handleSuccessAddGroup() },
+              sucesso => { this.handleSuccessAddCategory() },
               erros => { this.handleFail(erros) }
             );
     }
@@ -132,7 +130,15 @@ export class CategoriesComponent {
     if(this.editForm.dirty && this.editForm.valid) {
       this.updateCategoryRequest = Object.assign({}, this.updateCategoryRequest, this.editForm.value);
 
-      this.categoryService.update(this.updateCategoryRequest)
+      let formdata = new FormData();
+  
+      formdata.append('category', JSON.stringify(this.updateCategoryRequest));
+
+      if(this.imagemForm && this.imagemNome) {
+        formdata.append('imageFile', this.imagemForm, this.imagemNome);
+      }
+
+      this.categoryService.update(formdata)
             .subscribe(
               sucesso => { this.handleSuccessEditCategory() },
               erros => { this.handleFail(erros) }
@@ -149,7 +155,7 @@ export class CategoriesComponent {
    
   }
   
-  handleSuccessAddGroup() {
+  handleSuccessAddCategory() {
     this.addForm.reset();
     Swal.fire(
       { 
@@ -227,6 +233,39 @@ export class CategoriesComponent {
   handleFail(fail: any) {
     this.errors = fail.error.data;
     this.toastr.error('Ocorreu um erro!', 'Opa :(');
+  }
+
+  public files: NgxFileDropEntry[] = [];
+
+  public dropped(files: NgxFileDropEntry[]) {
+    this.files = files;
+    for (const droppedFile of files) {
+
+      // Is it a file?
+      if (droppedFile.fileEntry.isFile) {
+        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+        fileEntry.file((file: File) => {
+
+          // Here you can access the real file
+          console.log(droppedFile.relativePath, file);
+          this.imagemForm =  file;
+          this.imagemNome =  droppedFile.relativePath;
+
+        });
+      } else {
+        // It was a directory (empty directories are added, otherwise only files)
+        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
+        console.log(droppedFile.relativePath, fileEntry);
+      }
+    }
+  }
+
+  public fileOver(event){
+    console.log(event);
+  }
+
+  public fileLeave(event){
+    console.log(event);
   }
 
 

@@ -8,7 +8,7 @@ import { UserService } from '../../../services/user.service';
 import { UserDto } from '../../../models/users/userDto';
 import { RoleService } from '../../../services/role.service';
 import { RoleDto } from '../../../models/roles/roleDto';
-import { UpdateAdminUserRequest } from '../../../models/users/UpdateAdminUserRequest';
+import { UpdateAdminUserRequest } from '../../../models/users/updateAdminUserRequest';
 
 @Component({
   selector: 'app-users',

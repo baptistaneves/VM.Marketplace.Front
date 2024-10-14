@@ -21,8 +21,10 @@ import { GeneralRoutingModule } from './general.routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxFileDropModule } from 'ngx-file-drop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GeneralGuard } from './guards/general.guard';
+import { SellersComponent } from './components/sellers/sellers.component';
 
 
 
@@ -35,7 +37,8 @@ import { GeneralGuard } from './guards/general.guard';
     AddressesComponent,
     DeliveryAddressesComponent,
     StatesComponent,
-    CitiesComponent
+    CitiesComponent,
+    SellersComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +48,8 @@ import { GeneralGuard } from './guards/general.guard';
     ModalModule,
     FormsModule,
     ReactiveFormsModule,
-    NgSelectModule
+    NgxFileDropModule,
+    NgSelectModule,
   ],
   providers: [
     GroupService,

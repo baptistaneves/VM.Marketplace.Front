@@ -1,4 +1,3 @@
-
 export class UpdateAdminUserRequest {
     id: string;
     fullName: string;

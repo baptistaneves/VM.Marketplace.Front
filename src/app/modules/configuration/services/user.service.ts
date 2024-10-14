@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, map } from 'rxjs';
 import { BaseService } from '../../../core/services/base.service';
 import { CreateCategoryRequest } from '../../general/models/categories/createCategoryRequest';
-import { RoleRequest } from '../models/roles/roleRequest';
 import { CreateAdminUserRequest } from '../models/users/createAdminUserRequest';
-import { UpdateAdminUserRequest } from '../models/users/UpdateAdminUserRequest';
+import { UpdateAdminUserRequest } from '../models/users/updateAdminUserRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +19,11 @@ export class UserService extends BaseService {
           .pipe(catchError(super.serviceError));
   }
 
+  getAllSeller() : Observable<any>{
+    return this.http
+          .get<any>(this.UrlServiceV1 + "users/obter-usuarios-vendedores", this.GetAuthHeaderJson())
+          .pipe(catchError(super.serviceError));
+  }
 
   add(user: CreateAdminUserRequest) : Observable<any>{
     let response = this.http
@@ -40,6 +44,27 @@ export class UserService extends BaseService {
 
     return response;
   }
+
+  verifyUser(userId: string) : Observable<any>{
+    let response = this.http
+        .put(this.UrlServiceV1 + "users/verificar-usuario/" + userId, {}, this.GetAuthHeaderJson())
+        .pipe((
+          map(this.extractData),
+          catchError(this.serviceError)));
+
+    return response;
+  }
+
+  unverifyUser(userId: string) : Observable<any>{
+    let response = this.http
+        .put(this.UrlServiceV1 + "users/remover-verificacao-do-usuario/" + userId, {},  this.GetAuthHeaderJson())
+        .pipe((
+          map(this.extractData),
+          catchError(this.serviceError)));
+
+    return response;
+  }
+
 
   remove(id:string) : Observable<any>{
     return this.http

@@ -25,12 +25,6 @@ export const MENU: MenuItem[] = [
         subItems: [
             {
                 id: 13,
-                label: 'Grupos',
-                link: '/geral/grupos',
-                parentId: 12
-            },
-            {
-                id: 13,
                 label: 'Categorias',
                 link: '/geral/categorias',
                 parentId: 12
@@ -40,12 +34,6 @@ export const MENU: MenuItem[] = [
                 label: 'Províncias',
                 link: '/geral/provincias',
                 parentId: 12
-            },
-            {
-                id: 21,
-                label: 'Unidades',
-                link: '/geral/unidades',
-                parentId: 12
             }
         ]
     },
@@ -53,7 +41,7 @@ export const MENU: MenuItem[] = [
         id: 13,
         label: 'Vendedores',
         icon: 'ph-users-three-thin',
-        link: '/geral/grupos',
+        link: '/geral/vendedores',
         parentId: 12
     },
     {

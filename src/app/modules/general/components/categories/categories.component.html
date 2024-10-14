@@ -46,7 +46,6 @@
                                         </div>
                                     </th>
                                     <th>Descrição</th>
-                                    <th>Grupo</th>
                                     <th class="text-end">Acção</th>
                                 </tr>
                             </thead>
@@ -58,18 +57,17 @@
                                         </div>
                                     </td>
                                     <td >{{category.description}}</td>
-                                    <td>{{category.groupDescription}}</td>
                                     <td>
                                         <div class="hstack gap-3 flex-wrap justify-content-sm-end">
                                             <a href="javascript:void(0);" class="link-success fs-base text-center" (click)="fillForm(category)" (click)="edit.show()"><i class="ri-edit-2-line"></i></a>
-                                            <a routerLink="/geral/subcategorias/{{category.description}}/{{category.id}}" class="link-primary fs-base text-center"><i class=" ri-list-settings-line "></i></a>
+                                            <!-- <a routerLink="/geral/subcategorias/{{category.description}}/{{category.id}}" class="link-primary fs-base text-center"><i class=" ri-list-settings-line "></i></a> -->
                                             <a href="javascript:void(0);" class="link-danger fs-base text-center" (click)="confirmRemove(category.id)"><i class="ri-delete-bin-line"></i></a>
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <div *ngIf='categories.length == 0' class="noresult">
+                        <div *ngIf='categories && categories.length == 0' class="noresult">
                             <div class="text-center">
                                 <h5 class="mt-2">Nenhuma categoria cadastrada</h5>
                                 <p class="text-muted mb-0">Adicione uma nova categoria para ver nessa lista</p>
@@ -94,7 +92,7 @@
             <div class="modal-body text-center p-5">
                 <div class="mt-4">
                     <h4 class="mb-3">Nova Categoria</h4>
-                    <form [formGroup]="addForm" (ngSubmit)="addGroup()" class="text-start my-4">
+                    <form [formGroup]="addForm" (ngSubmit)="addCategory()" class="text-start my-4">
                         <div class="col-12">
                             <ul *ngIf="errors && errors.length > 0" class="alert alert-danger p-4">
                                 <li *ngFor="let error of errors">{{ error }}</li>
@@ -112,19 +110,29 @@
                                     <div *ngIf="f['description'].errors['required']">Por favor, informe a descrição da categoria</div>
                                 </div>
                         </div>
-                        <div class="row mb-3">
-                            <label class="form-label">Grupo</label>
-                                <ng-select 
-                                    placeholder="{{selectedGroupOption}}"
-                                    [items]="groups"
-                                    bindLabel="description" 
-                                    bindValue="id" 
-                                    formControlName="groupId" 
-                                    [ngClass]="{ 'is-invalid': f['groupId'].errors && f['groupId'].touched }">
-                                </ng-select>
-                                <div *ngIf="f['groupId'].errors && f['groupId'].touched" class="text-danger">
-                                    <div *ngIf="f['groupId'].errors['required']">Por favor, selecione um grupo para a categoria</div>
+                        <div class="row mt-3 mb-3">
+                            <div class="center">
+                                <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
+                                (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+                                    <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                                      <button type="button" class="btn btn-secondary radius-2" (click)="openFileSelector()">Escolha a imagem</button>
+                                    </ng-template>
+                                </ngx-file-drop>
+                                <div class="upload-table">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Nome</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="upload-name-style">
+                                            <tr *ngFor="let item of files; let i=index">
+                                                <td><strong>{{ item.relativePath }}</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
+                            </div>      
                         </div>
                         <div class="text-end">
                             <button type="button" id="addBtn" class="btn btn-light mx-2" (click)="newCategory.hide()">Fechar</button>
@@ -146,7 +154,7 @@
             <div class="modal-body text-center p-5">
                 <div class="mt-4">
                     <h4 class="mb-3">Editar Grupo</h4>
-                    <form [formGroup]="editForm" (ngSubmit)="editCategory()" class="text-start my-4">
+                    <form [formGroup]="editForm" (ngSubmit)="editCategory()" class="text-start my-2">
                         <div class="col-12">
                             <ul *ngIf="errors && errors.length > 0" class="alert alert-danger p-4">
                                 <li *ngFor="let error of errors">{{ error }}</li>
@@ -164,19 +172,36 @@
                                     <div *ngIf="e['description'].errors['required']">Por favor, informe a descrição da categoria</div>
                                 </div>
                         </div>
+                        <div class="row mb-3 mt-3 justify-content-center">
+                            <div class="card-body text-center">
+                                <img src="{{staticFileUrl}}{{imageUrl}}" alt="" class="img-fluid" style="height:200px;">
+                            </div>
+                        </div>
                         <div class="row mb-3">
-                            <label class="form-label">Grupo</label>
-                                <ng-select 
-                                    placeholder="{{selectedGroupOption}}"
-                                    [items]="groups"
-                                    bindLabel="description" 
-                                    bindValue="id" 
-                                    formControlName="groupId" 
-                                    [ngClass]="{ 'is-invalid': e['groupId'].errors && e['groupId'].touched }">
-                                </ng-select>
-                                <div *ngIf="e['groupId'].errors && e['groupId'].touched" class="text-danger">
-                                    <div *ngIf="e['groupId'].errors['required']">Por favor, selecione um grupo para a categoria</div>
-                                </div>
+                            <div class="row mt-3 mb-3">
+                                <div class="center">
+                                    <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
+                                    (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+                                        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                                          <button type="button" class="btn btn-secondary radius-2" (click)="openFileSelector()">Escolha a imagem</button>
+                                        </ng-template>
+                                    </ngx-file-drop>
+                                    <div class="upload-table">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nome</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="upload-name-style">
+                                                <tr *ngFor="let item of files; let i=index">
+                                                    <td><strong>{{ item.relativePath }}</strong></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>      
+                            </div>
                         </div>
                         <div>
                             <input type="hidden" formControlName="id">

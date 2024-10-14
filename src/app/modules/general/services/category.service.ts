@@ -24,9 +24,9 @@ export class CategoryService extends BaseService {
       .pipe(catchError(super.serviceError));
   }
 
-  add(category: CreateCategoryRequest) : Observable<any>{
+  add(category: FormData) : Observable<any>{
     let response = this.http
-        .post<CreateCategoryRequest>(this.UrlServiceV1 + "categories/adicionar-categoria", category, this.GetAuthHeaderJson())
+        .post<CreateCategoryRequest>(this.UrlServiceV1 + "categories/adicionar-categoria", category, this.GetHeaderFormData())
         .pipe((
           map(this.extractData),
           catchError(this.serviceError)));
@@ -34,9 +34,9 @@ export class CategoryService extends BaseService {
     return response;
   }
 
-  update(category: UpdateCategoryRequest) : Observable<any>{
+  update(category: FormData) : Observable<any>{
     let response = this.http
-        .put<UpdateCategoryRequest>(this.UrlServiceV1 + "categories/actualizar-categoria/", category, this.GetAuthHeaderJson())
+        .put<UpdateCategoryRequest>(this.UrlServiceV1 + "categories/actualizar-categoria/", category, this.GetHeaderFormData())
         .pipe((
           map(this.extractData),
           catchError(this.serviceError)));

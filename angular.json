@@ -110,6 +110,10 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "seed2:build",
+            "port": 4201
+          },
           "configurations": {
             "production": {
               "buildTarget": "Steex:build:production"

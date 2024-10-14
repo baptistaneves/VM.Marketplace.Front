@@ -7,6 +7,7 @@ import { UnitsComponent } from './components/units/units.component';
 import { StatesComponent } from './components/states/states.component';
 import { CitiesComponent } from './components/cities/cities.component';
 import { GeneralGuard } from './guards/general.guard';
+import { SellersComponent } from './components/sellers/sellers.component';
 
 const routes: Routes = [
   { 
@@ -20,6 +21,11 @@ const routes: Routes = [
     component: CategoriesComponent,
     canActivate: [GeneralGuard],
     data: [{ claim: { type: 'Categoria', value: 'Visualizar'}}]
+  },
+  { 
+    path: 'vendedores', 
+    component: SellersComponent,
+    canActivate: [GeneralGuard]
   },
   { 
     path: 'subcategorias/:categoryDescription/:categoryId', 
