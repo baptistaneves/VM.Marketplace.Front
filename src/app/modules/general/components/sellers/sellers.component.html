@@ -82,15 +82,18 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body text-center">
-                <figure class="figure">
+                <figure class="figure" *ngIf="businessLicenseUrl">
                     <img src="{{sellerLinceseUrl}}/{{businessLicenseUrl}}" class="figure-img img-fluid rounded" alt="...">
                     <figcaption class="figure-caption">Documento enviado pelo vendedor.</figcaption>
+                </figure>
+                <figure class="figure" *ngIf="!businessLicenseUrl">
+                    <h4 class="text-muted">Nenhum Documento enviado pelo vendedor.</h4>
                 </figure>
             </div>
             <div class="modal-footer">
                 <div class="text-end">
                     <button type="button" id="addBtn" class="btn btn-light mx-2" (click)="edit.hide()">Fechar</button>
-                    <button type="button" *ngIf="isVerified === false" class="btn btn-success" (click)="verifyUser()"><i class="ri-thumb-up-line"></i> Aprovar</button>
+                    <button type="button" *ngIf="isVerified === false" [disabled]="!businessLicenseUrl" class="btn btn-success" (click)="verifyUser()"><i class="ri-thumb-up-line"></i> Aprovar</button>
                     <button type="button"  *ngIf="isVerified === true" class="btn btn-danger" (click)="confirmUnverification()"><i class="ri-thumb-down-line"></i> Reprovar</button>
                 </div>
             </div>
